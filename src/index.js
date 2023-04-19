@@ -1,7 +1,16 @@
 import { el, mount } from "redom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './validateCard.js';
 import './style.css';
+import aexp from './assets/images/amex.svg';
+import diners from './assets/images/diners.svg';
+import maestro from './assets/images/maestro.svg';
+import mastercard from './assets/images/mastercard.svg';
+import mir from './assets/images/mir.svg';
+import visa from './assets/images/visa.svg';
+import discover from './assets/images/discover.svg';
+import jsb from './assets/images/jcb.svg';
+import UnionPay from './assets/images/unionpay.svg';
+
 
 class FormLabel {
   constructor(text) {
@@ -61,10 +70,10 @@ const btn = new el("button.btn.btn-primary.card__btn", "Оплатить", {
 
 class ImageIcon {
   constructor(alt, pathIcon) {
-    this.el = el("image.card__chipset", {
+    this.el = el("img.card__chipset", {
       width: "50",
       height: '50',
-      alt:alt,
+      alt: alt,
       src: pathIcon
     })
   }
@@ -101,14 +110,14 @@ form.addEventListener('validInput', (e) => {
     case 'email':
       validEmail = true;
       break;
-    case 'cvc':
-      validEmail = true;
+    case 'CVC':
+      validCVC = true;
       break;
-    case 'number':
-      validEmail = true;
+    case 'numberCard':
+      validNumber = true;
       break;
     case 'date':
-      validEmail = true;
+      validDate = true;
       break;
 
     default:
@@ -128,43 +137,45 @@ function validForm() {
 }
 
 form.addEventListener('chipset', (e) => {
-  
+
   const imageName = e.detail.name;
-  alert(imageName)
   let pathImg = '';
   switch (imageName) {
     case 'MIR':
-      pathImg = './assets/images/mir.svg'
+      pathImg = mir
       break;
     case 'JCB':
-
+      pathImg = jsb
       break;
     case 'DINERS CLUB':
-
+      pathImg = diners;
       break;
     case 'AMERICAN EXPRESS':
-
+      pathImg = aexp
       break;
     case 'MASTERCARD':
-
+      pathImg = mastercard;
       break;
     case 'Discover':
-
+      pathImg = discover;
       break;
     case 'Maestro':
-
+      pathImg = maestro;
       break;
     case 'China UnionPay':
-
+      pathImg = UnionPay;
       break;
     case 'УЭК':
-
+      pathImg = 'УЭК'
       break;
+      case 'VISA':
+        pathImg = visa;
+        break;
 
     default:
       break;
   }
-  const img = new ImageIcon(imageName,pathImg)
-  mount(form,img)
+  const img = new ImageIcon(imageName, pathImg)
+  mount(form, img)
 })
 

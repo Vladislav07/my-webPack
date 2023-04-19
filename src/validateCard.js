@@ -1,5 +1,6 @@
 import IMask from "imask";
-import numberCardValidating from "./numberCard.js";
+import numberCardValidate from "./numberCard.js";
+
 
 
 const cardNumber = document.querySelector(".card__number");
@@ -18,11 +19,11 @@ const eventValid = new Event('validInput', {
 })
 
 
-if (cardNumber) {
+
   cardNumber.addEventListener("keypress", function (evt) {
     if (evt.keyCode < 48 || evt.keyCode > 57) evt.preventDefault();
   });
-}
+
 
 cardCVC.addEventListener("keypress", function (evt) {
   if (evt.keyCode < 48 || evt.keyCode > 57) evt.preventDefault();
@@ -41,7 +42,7 @@ cardNumber.addEventListener("blur", function () {
     return;
   }
 
-  const res = JSON.parse(numberCardValidating(maskCardNumber.value));
+  const res = JSON.parse(numberCardValidate(maskCardNumber.value));
   if ("chipset" in res === true) {
     const chipset = res.chipset;
     const chipsetEvent = new CustomEvent('chipset', {
@@ -50,7 +51,7 @@ cardNumber.addEventListener("blur", function () {
       cancelable: true,
     })
 
-    cardNumber.eventDispatch(chipsetEvent);
+    cardNumber.dispatchEvent(chipsetEvent);
   }
   if (res.is_valid) {
     cardNumber.classList.add("is-invalid");
@@ -60,14 +61,14 @@ cardNumber.addEventListener("blur", function () {
   }
 
 
-  cardNumber.eventDispatch(eventValid)
+  cardNumber.dispatchEvent(eventValid)
 
 });
 
 cardNumber.addEventListener("focus", function () {
   cardNumber.classList.remove("is-invalid");
   messageNumber.textContent = "";
-  chipsetElement.textContent = "";
+  
 });
 
 const maskCVC = {
@@ -86,6 +87,7 @@ cardCVC.addEventListener("blur", function () {
   if (cvcValue.length < 3) {
     messageCVC.textContent = "Нужно ввести 3 цифры";
     cardCVC.classList.add("is-invalid");
+    return;
   }
 
 
@@ -209,3 +211,5 @@ cardEmail.addEventListener("focus", function () {
   messageEmail.textContent = "";
 });
  
+
+

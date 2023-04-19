@@ -3,6 +3,8 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
+
+
 module.exports = {
   resolve: {
     fallback: {
@@ -12,16 +14,18 @@ module.exports = {
   },
   entry: {
     main: path.resolve(__dirname, './src/index.js'),
+    valid: path.resolve(__dirname, './src/validateCard.js'),
   },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
     filename: '[name].bundle.js',
   },
+  devtool: 'inline-source-map',
   mode: 'development',
   devServer: {
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, 'assets/images'),
     },
     compress: true,
     port: 9000,
@@ -30,25 +34,29 @@ module.exports = {
     rules: [
       {
         test: /\.(png|jpg|svg|jpeg|gif|ttf)$/i,
-        type: 'asset/resourse',
+        type: 'asset/resource',
+        generator: {
+          filename: './assets/images/[name][ext]',
+      },
       },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
-      {
-        test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', { targets: "defaults" }]
-            ],
-            plugins: ['@babel/plugin-proposal-class-properties']
-          }
-        }
-      },
+      
+      // {
+      //   test: /\.(js)$/,
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //     options: {
+      //       presets: [
+      //         ['@babel/preset-env', { targets: "defaults" }]
+      //       ],
+      //       plugins: ['@babel/plugin-proposal-class-properties']
+      //     }
+      //   }
+      // },
     ],
   },
   plugins: [
@@ -59,5 +67,6 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+
   ],
 }
