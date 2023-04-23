@@ -21,12 +21,9 @@ const optimization = () => {
           implementation: ImageMinimizerPlugin.svgoMinify,
           options: {
             encodeOptions: {
-              // Pass over SVGs multiple times to ensure all optimizations are applied. False by default
               multipass: true,
               plugins: [
-                // set of built-in plugins enabled by default
-                // see: https://github.com/svg/svgo#default-preset
-                'preset-default',
+
               ],
             },
           },
@@ -71,6 +68,11 @@ module.exports = {
     port: 9000,
     hot: isDev,
   },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+},
 
   module: {
     rules: [
