@@ -1,5 +1,4 @@
 import { el, mount } from "redom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import aexp from './assets/images/amex.svg';
 import diners from './assets/images/diners.svg';

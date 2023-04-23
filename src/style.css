@@ -1,3 +1,5 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 .title {
   margin-bottom: 20px;
 }
@@ -22,10 +24,8 @@
   margin: 0 auto;
 }
 
-
-.card__chipset{
+.card__chipset {
   position: absolute;
-  top:15px;
+  top: 15px;
   right: 50px;
-  
 }
