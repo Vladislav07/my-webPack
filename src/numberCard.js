@@ -1,6 +1,6 @@
-import validator from "./lib/aplication.js";
-import IMask from "imask";
-
+import validator from './lib/aplication.js';
+import IMask from 'imask';
+//const {IMask} = require('imask');
 //import validator from "validator-bank-card";
 //let valid_card = new validator("5425233430109903").validate();
 //let invalid_card = new validator("4554738890994555").validate();
@@ -14,18 +14,23 @@ import IMask from "imask";
  * }
  */
 
-function numberCardValidate(number) {
+export function numberCardValidate(number) {
   let valid_card = new validator(number).validate();
   return valid_card;
 }
 
- function symbolIsNumber(symbol) {
+export function symbolIsNumber(symbol) {
   if (symbol.keyCode < 48 || symbol.keyCode > 57) {
-    return true;
+    return false;
   } else {
     return true;
   }
 }
 
-
-module.exports = {symbolIsNumber, numberCardValidate}
+export function templateCardNumber(input) {
+  const maskNumber = {
+    mask: '0000 0000 0000 0000',
+  };
+  const maskCardNumber = IMask(input, maskNumber);
+  return maskCardNumber;
+}
