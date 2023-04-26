@@ -34,3 +34,11 @@ export function templateCardNumber(input) {
   const maskCardNumber = IMask(input, maskNumber);
   return maskCardNumber;
 }
+
+export function OutNumberLessThanCard(value)
+{
+  if(value < 16){
+    return true;
+  } 
+  return false;
+}

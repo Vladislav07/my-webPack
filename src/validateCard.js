@@ -2,6 +2,7 @@ const {
   symbolIsNumber,
   numberCardValidate,
   templateCardNumber,
+  OutNumberLessThanCard,
 } = require('./numberCard.js');
 
 const cardNumber = document.querySelector('.card__number');
@@ -32,6 +33,12 @@ cardNumber.addEventListener('blur', function () {
   if (maskCardNumber.value.length === 0) {
     cardNumber.classList.add('is-invalid');
     messageNumber.textContent = 'Поле обязательно для заполнения';
+    return;
+  }
+
+  if (maskCardNumber.value.length > 16) {
+    cardNumber.classList.add('is-invalid');
+    messageNumber.textContent = 'Внесите полностью номер карты';
     return;
   }
 
