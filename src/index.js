@@ -1,4 +1,4 @@
-import { el, mount } from "redom";
+import { el, mount } from 'redom';
 import './style.css';
 import aexp from './assets/images/amex.svg';
 import diners from './assets/images/diners.svg';
@@ -10,10 +10,9 @@ import discover from './assets/images/discover.svg';
 import jsb from './assets/images/jcb.svg';
 import UnionPay from './assets/images/unionpay.svg';
 
-
 class FormLabel {
   constructor(text) {
-    this.el = el("label.form-label", text);
+    this.el = el('label.form-label', text);
   }
 }
 
@@ -24,57 +23,68 @@ class FormErrorMessage {
 }
 
 class CustomInput {
-  constructor(type, name, customClass) {
+  constructor(type, name, customClass, placeholder) {
     this.el = el(`input.form-control.${customClass}`, {
       type: type,
       name: name,
-      required: 'true'
+      required: 'true',
+      placeholder,
     });
   }
 }
 
 class FormGroup {
   constructor(text, classMessage, input) {
-    this.el = el(".col-auto.card__group", [
+    this.el = el('.col-auto.card__group', [
       new FormLabel(text),
       input,
       new FormErrorMessage(classMessage),
     ]);
   }
 }
-const title = el("h1.title", "онлайн-оплата");
-const inputNumber = new CustomInput("text", "numberCard", "card__number");
-const inputDate = new CustomInput("text", "date", "card__date");
-const inputCVC = new CustomInput("text", "CVC", "card__cvc");
-const inputEmail = new CustomInput("text", "email", "card__email");
+const title = el('h1.title', 'онлайн-оплата');
+const inputNumber = new CustomInput(
+  'text',
+  'numberCard',
+  'card__number',
+  'Номер карты'
+);
+const inputDate = new CustomInput('text', 'date', 'card__date', 'ММ/ГГ');
+const inputCVC = new CustomInput('text', 'CVC', 'card__cvc', 'CVV/CVC');
+const inputEmail = new CustomInput('text', 'email', 'card__email', 'Email');
 
-const container = el(".container.d-flex.flex-column.align-items-center.mt-3");
-const form = el("form.card.needs-validation");
-const formGroupEmail = new FormGroup("email", "message__email", inputEmail);
+const container = el('.container.d-flex.flex-column.align-items-center.mt-3');
+const form = el('form.card.needs-validation');
+const formGroupEmail = new FormGroup('email', 'message__email', inputEmail);
 const formGroupDate = new FormGroup(
-  "Дата окончания действия карты (ММ/ГГ)",
-  "message__date", inputDate
+  'Дата окончания действия карты (ММ/ГГ)',
+  'message__date',
+  inputDate
 );
 
 const formGroupCode = new FormGroup(
-  "CVC/CVV (3 цифры на обороте карты)",
-  "message__cvc", inputCVC
+  'CVC/CVV (3 цифры на обороте карты)',
+  'message__cvc',
+  inputCVC
 );
-const formGroupNumber = new FormGroup("номер карты", "message__number", inputNumber);
-const btn = new el("button.btn.btn-primary.card__btn", "Оплатить", {
-  type: "submit",
-  disabled: "true",
+const formGroupNumber = new FormGroup(
+  'номер карты',
+  'message__number',
+  inputNumber
+);
+const btn = new el('button.btn.btn-primary.card__btn', 'Оплатить', {
+  type: 'submit',
+  disabled: 'true',
 });
-//<img src="/upload/myicon.svg" width="128" height="128" alt="моя svg иконка" />
 
 class ImageIcon {
   constructor(alt, pathIcon) {
-    this.el = el("img.card__chipset", {
-      width: "50",
+    this.el = el('img.card__chipset', {
+      width: '50',
       height: '50',
       alt: alt,
-      src: pathIcon
-    })
+      src: pathIcon,
+    });
   }
 }
 
@@ -89,20 +99,22 @@ mount(container, form);
 
 mount(document.body, container);
 
-
-form.addEventListener('submit', event => {
-  if (!form.checkValidity()) {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-  form.classList.add('was-validated')
-}, false)
+form.addEventListener(
+  'submit',
+  (event) => {
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  },
+  false
+);
 
 let validNumber = false;
 let validCVC = false;
 let validDate = false;
 let validEmail = false;
-
 
 form.addEventListener('validInput', (e) => {
   switch (e.target.name) {
@@ -123,34 +135,31 @@ form.addEventListener('validInput', (e) => {
       break;
   }
   validForm();
-
-})
+});
 
 function validForm() {
   if (validEmail && validDate && validCVC && validNumber) {
-    btn.removeAttribute("disabled");
-  }
-  else {
-    btn.setAttribute("disabled", "true");
+    btn.removeAttribute('disabled');
+  } else {
+    btn.setAttribute('disabled', 'true');
   }
 }
 
 form.addEventListener('chipset', (e) => {
-
   const imageName = e.detail.name;
   let pathImg = '';
   switch (imageName) {
     case 'MIR':
-      pathImg = mir
+      pathImg = mir;
       break;
     case 'JCB':
-      pathImg = jsb
+      pathImg = jsb;
       break;
     case 'DINERS CLUB':
       pathImg = diners;
       break;
     case 'AMERICAN EXPRESS':
-      pathImg = aexp
+      pathImg = aexp;
       break;
     case 'MASTERCARD':
       pathImg = mastercard;
@@ -165,16 +174,15 @@ form.addEventListener('chipset', (e) => {
       pathImg = UnionPay;
       break;
     case 'УЭК':
-      pathImg = 'УЭК'
+      pathImg = 'УЭК';
       break;
-      case 'VISA':
-        pathImg = visa;
-        break;
+    case 'VISA':
+      pathImg = visa;
+      break;
 
     default:
       break;
   }
-  const img = new ImageIcon(imageName, pathImg)
-  mount(form, img)
-})
-
+  const img = new ImageIcon(imageName, pathImg);
+  mount(form, img);
+});

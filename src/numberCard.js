@@ -1,9 +1,6 @@
 import validator from './lib/aplication.js';
 import IMask from 'imask';
-//const {IMask} = require('imask');
-//import validator from "validator-bank-card";
-//let valid_card = new validator("5425233430109903").validate();
-//let invalid_card = new validator("4554738890994555").validate();
+
 /**
  * output:
  *
@@ -35,10 +32,11 @@ export function templateCardNumber(input) {
   return maskCardNumber;
 }
 
-export function OutNumberLessThanCard(value)
-{
-  if(value < 16){
-    return true;
-  } 
-  return false;
+export function templateCVC(input) {
+  const maskCVC = {
+    mask: '000',
+  };
+  const maskCardCVC = IMask(input, maskCVC);
+  return maskCardCVC;
 }
+

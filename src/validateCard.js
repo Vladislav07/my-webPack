@@ -2,7 +2,7 @@ const {
   symbolIsNumber,
   numberCardValidate,
   templateCardNumber,
-  OutNumberLessThanCard,
+  templateCVC,
 } = require('./numberCard.js');
 
 const cardNumber = document.querySelector('.card__number');
@@ -20,11 +20,11 @@ const eventValid = new Event('validInput', {
 });
 
 cardNumber.addEventListener('keypress', function (evt) {
-  if (symbolIsNumber(evt)) evt.preventDefault();
+  if (!symbolIsNumber(evt)) evt.preventDefault();
 });
 
 cardCVC.addEventListener('keypress', function (evt) {
-  if (symbolIsNumber(evt)) evt.preventDefault();
+  if (!symbolIsNumber(evt)) evt.preventDefault();
 });
 
 const maskCardNumber = templateCardNumber(cardNumber);
@@ -36,7 +36,7 @@ cardNumber.addEventListener('blur', function () {
     return;
   }
 
-  if (maskCardNumber.value.length > 16) {
+  if (maskCardNumber.value.length < 19) {
     cardNumber.classList.add('is-invalid');
     messageNumber.textContent = 'Внесите полностью номер карты';
     return;
@@ -68,11 +68,7 @@ cardNumber.addEventListener('focus', function () {
   messageNumber.textContent = '';
 });
 
-const maskCVC = {
-  mask: '000',
-};
-
-const maskCardCVC = IMask(cardCVC, maskCVC);
+const maskCardCVC = templateCVC(cardCVC);
 
 cardCVC.addEventListener('blur', function () {
   const cvcValue = maskCardCVC.value;
