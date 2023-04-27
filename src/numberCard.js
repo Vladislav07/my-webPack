@@ -1,5 +1,6 @@
 import validator from './lib/aplication.js';
 import IMask from 'imask';
+import { el } from 'redom';
 
 /**
  * output:
@@ -40,3 +41,10 @@ export function templateCVC(input) {
   return maskCardCVC;
 }
 
+export class CustomInput {
+  constructor(placeholder) {
+    this.el = el(`input`, {
+      placeholder,
+    });
+  }
+}

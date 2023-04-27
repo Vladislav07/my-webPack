@@ -1,12 +1,12 @@
-const { CustomInput } = require('./index.js');
-
 const {
   symbolIsNumber,
   numberCardValidate,
   templateCardNumber,
   templateCVC,
+  CustomInput,
 } = require('./numberCard.js');
 
+import { el, mount } from 'redom';
 //cardNumber
 
 test('Валидация номера карты не пропускает некорректный номер карты', () => {
@@ -72,22 +72,20 @@ test('Валидация CVV/CVC не пропускает строки с тр�
 
 test('Функция создания DOM-дерева должна вернуть DOM-элемент, в котором содержится строго четыре поля для ввода с плейсхолдерами «Номер карты», «ММ/ГГ», CVV/CVC, Email).', () => {
   const ExpectedStrDom =
-    '<input class="form-control card__number" type="text" name="numberCard" required="" placeholder="Номер карты">' +
-    '<input class="form-control card__date" type="text" name="date" required="" placeholder="ММ/ГГ">' +
-    '<input class="form-control card__cvc" type="text" name="CVC" required="" placeholder="CVV/CVC">' +
-    '<input class="form-control card__email" type="text" name="email" required="" placeholder="Email">';
-
-  const argNumberField = ['text', 'numberCard', 'card__number', 'Номер карты'];
-  const argDateField = ['text', 'numberCard', 'card__number', 'Номер карты'];
-  const argCVCField = ['text', 'numberCard', 'card__number', 'Номер карты'];
-  const argEmailField = ['text', 'numberCard', 'card__number', 'Номер карты'];
-  const ReceivedStrDom = [
+    '<div><input placeholder="Номер карты"><input placeholder="ММ/ГГ"><input placeholder="CVV/CVC"><input placeholder="Email"></div>';
+  const argNumberField = 'Номер карты';
+  const argDateField = 'ММ/ГГ';
+  const argCVCField = 'CVV/CVC';
+  const argEmailField = 'Email';
+  let ReceivedStrDom = [
     argNumberField,
     argDateField,
     argCVCField,
     argEmailField,
-  ].map(([type, nam, customClass, placeholder]) => {
-    new CustomInput(type, nam, customClass, placeholder);
-    expect(ReceivedStrDom.outerHtml).toBe(ExpectedStrDom);
+  ];
+  const wrapper = el('div');
+  ReceivedStrDom.map((el) => {
+    mount(wrapper, new CustomInput(el));
   });
+  expect(wrapper.outerHTML).toBe(ExpectedStrDom);
 });
